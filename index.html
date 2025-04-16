@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>unRiyalSentiment</title>
+</head>
+
+<body style="overflow: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #000;">
+    <div
+        class="result-container"
+        style="display: flex; justify-content: center;  align-items: center; height: 99vh; flex-direction: column; background-image: url(/bg23.png); overflow: hidden; background-size: cover; background-repeat: no-repeat; ">
+        <div
+            style="display: flex; width: 1030px; height: 740px; margin-top: 95px; justify-content: start; align-items: center; flex-direction: column;">
+            <h1 style="font-family: 'Outfit', sans-serif; font-size: 85px; color: #fff; padding:0; margin: 0; "">Unriyal-Sentiment</h1>
+            <p style="font-family: 'Outfit', sans-serif; font-size: 35px; color: #fff; padding:0; margin: 0; ">Sentiment, Simplified</p>
+            <form id="form" style="display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 20px; margin-top: 45px; margin-right: 10px;">      
+                <textarea type="text" id="input" placeholder="Enter your text here..." style="width: 600px; height: 160px; font-size: 20px; padding: 40px; border-radius: 5px; border: none; margin-top: 20px; border-radius: 50px;outline: none; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); background-color: #fff; color: #000; font-family: 'Outfit', sans-serif;" class="form-control"></textarea>
+                <button type="submit" id="submit" style="width: 200px; height: 50px; font-size: 20px; background-color: #5EBDFC; color: white; border: none; border-radius: 50px; cursor: pointer;">Submit</button>
+            </form> 
+        </div>
+        <p style="font-family: 'Outfit', sans-serif; font-size: 20px; color: #fff; padding:0; margin: 0; ">A smart tool to detect and analyze sentiment from any text.</p>
+    </div>
+
+    <script>
+        const responseContainer = document.getElementsByClassName('result-container')[0];
+        const inputElement = document.getElementById('input');
+        const formElement = document.getElementById('form');
+        const submitButton = document.getElementById('submit');
+
+        formElement.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the form from submitting normally
+            const inputText = inputElement.value; // Get the value of the input field
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: inputText }) // Send the input text as JSON
+            }).then(response => response.json())
+            .then(res => {
+                console.log(res)
+                if(res[0].label === 'POSITIVE'){
+                    console.log("Positive Sentiment Detected")
+                    responseContainer.style.backgroundImage = "url(/p11.png)";
+                    submitButton.style.backgroundColor = "#51E369";
+                }else{
+                    console.log("Negative Sentiment Detected")
+                    responseContainer.style.backgroundImage = "url(/n11.png)";
+                    submitButton.style.backgroundColor = "#FF4235";
+                }
+            })
+        })
+
+    </script>
+</body>
+</html>
